@@ -54,17 +54,17 @@ function [trial_table,EMG_curves,max_EMGs,RotAngle_curves] = Analyze_Trial(trial
     % Extract Data from trial name
     [subject, movement, RotCond] = Extract_trialName_Info(trial);
 
+    % Calculate Stride Metrics
+    [t_Lstride,t_Rstride,L_strideLen,R_strideLen,~] = Calc_Stride_Metrics(D_Kin,M.L_legL(subject),M.L_legR(subject),trial_plt,trial,M.L_heel(subject),M.R_heel(subject));
+
     % Calculate amount of thoracic rotation
-    [theta_xy, theta_ShHip, avg_ang_disp_xy, avg_ang_disp_ShHip] = Calc_Rotation(D_Kin,trial_plt,trial);
+    [theta_xy, theta_ShHip, avg_ang_disp_xy, avg_ang_disp_ShHip] = Calc_Rotation(D_Kin, t_Lstride, t_Rstride, trial_plt, trial);
 
     % Calculate V_O2 and V_CO2
     [V_O2,V_CO2,RER,HR] = Calc_Metabolics(D_Met,M.BM(subject),trial_plt,trial);
 
     % Calculate peak Ground Reaction Forces
     [peakGRF] = Calc_Forces(D_Trd,M.BM(subject),trial_plt,trial);
-
-    % Calculate Stride Metrics
-    [t_Lstride,t_Rstride,L_strideLen,R_strideLen] = Calc_Stride_Metrics(D_Kin,M.L_legL(subject),M.L_legR(subject),trial_plt,trial,M.L_heel(subject),M.R_heel(subject));
 
     % Calculate muscle intensities
     [I_Lrf,I_Lrf_support,I_Lrf_swing,I_Lmg,I_Lmg_support,I_Lmg_swing,I_Llg,I_Llg_support,I_Llg_swing, n_steps_L, avg_curves_L, max_EMGs_L] = Calc_MuscleInt(D_EMG,t_Lstride,'Left',trial_plt,trial);

@@ -1,8 +1,8 @@
 % This script allows you to analyze all the data, from every trial from 
 % each individual that has files in the data folder.
 
-trial_plt = 'n'; % set to 'Y...' or 'y...' to see data visualization checks for individual trials
-Indv_plt = 'n'; % set to 'Y...' or 'y...' to see data visualization for all trials from one subject together
+trial_plt = 'y'; % set to 'Y...' or 'y...' to see data visualization checks for individual trials
+Indv_plt = 'y'; % set to 'Y...' or 'y...' to see data visualization for all trials from one subject together
 final_plt = 'y'; % set to 'Y...' or 'y...' to get overall plots comparing all individuals across the different conditions
 statistics = 'y'; % set to 'Y...' or 'y...' when you want to analyze the statistics of the outputed RESULTS table
 opts = detectImportOptions('C:\Users\AJD44\Desktop\Thoracic Rotation\data\Subject_Morphometrics.csv','NumHeaderLines',2);
