@@ -1,21 +1,20 @@
 % This script allows you to analyze all the data, from every trial from 
 % each individual that has files in the data folder.
 
-trial_plt = 'y'; % set to 'Y...' or 'y...' to see data visualization checks for individual trials
-Indv_plt = 'y'; % set to 'Y...' or 'y...' to see data visualization for all trials from one subject together
-final_plt = 'y'; % set to 'Y...' or 'y...' to get overall plots comparing all individuals across the different conditions
-statistics = 'y'; % set to 'Y...' or 'y...' when you want to analyze the statistics of the outputed RESULTS table
+trial_plt = 'n'; % set to 'Y...' or 'y...' to see data visualization checks for individual trials
+Indv_plt = 'n'; % set to 'Y...' or 'y...' to see data visualization for all trials from one subject together
+final_plt = 'n'; % set to 'Y...' or 'y...' to get overall plots comparing all individuals across the different conditions
+statistics = 'n'; % set to 'Y...' or 'y...' when you want to analyze the statistics of the outputed RESULTS table
 opts = detectImportOptions('C:\Users\AJD44\Desktop\Thoracic Rotation\data\Subject_Morphometrics.csv','NumHeaderLines',2);
 opts.VariableNamesLine = 1; opts.VariableUnitsLine = 2; opts.DataLine = 3;
 M = readtable('C:\Users\AJD44\Desktop\Thoracic Rotation\data\Subject_Morphometrics.csv',opts); % Morphometrics Table
 dataDir = 'C:\Users\AJD44\Desktop\Thoracic Rotation\data'; % directory where data files are stored
 
 for i = 1:size(M,1)
-    subject = M.Subject(i);
     if exist('RESULTS','var') == 0
-        RESULTS = Analyze_All_Trials_for_Indv(subject,dataDir,M,trial_plt,Indv_plt);
+        RESULTS = Analyze_All_Trials_for_Indv(M.Subject(i),dataDir,M(i,:),trial_plt,Indv_plt);
     else
-        New_result = Analyze_All_Trials_for_Indv(subject,dataDir,M,trial_plt,Indv_plt);
+        New_result = Analyze_All_Trials_for_Indv(M.Subject(i),dataDir,M(i,:),trial_plt,Indv_plt);
         RESULTS = [RESULTS; New_result];
     end
 end
@@ -29,7 +28,7 @@ RESULTS.RotCond = reordercats(RESULTS.RotCond,{'None'; 'Forced'; 'Preferred Pre'
 
 ylabels = {'Rotation (deg)';'Rotation (deg)';'VO_2 (ml O_2/kg/min)';'VCO_2 (ml CO_2/kg/min)';'RER';'Heart Rate (bpm)';'Peak Impact Force (BW)';'Left Stride Length (leg length)';'Right Stride Length (leg length)'};
 
-for i = 4:12
+for i = 4:12 % variables/columns of interest
     figure('Name',['Summary ', RESULTS.Properties.VariableNames{i}])
     boxplot(RESULTS{:,i},RESULTS.RotCond,'positions',[0.75:1:4],'Widths',0.3,'Symbol','*r')
     hold on;

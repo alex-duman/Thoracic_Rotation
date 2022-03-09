@@ -1,5 +1,5 @@
 % This file analyzes the rotational data across speed
-plt = 'Yes'; % set to 'Y...' or 'y...' to plot check plots
+plt = 'No'; % set to 'Y...' or 'y...' to plot check plots
 dataDir = 'C:\Users\AJD44\Desktop\Thoracic Rotation\data'; % directory where data files are stored
 listing = dir([dataDir, filesep, '*mps_Kin_Filt.csv']); % get listing of files across speeds (only trials with mps in filename)
 
@@ -44,6 +44,17 @@ for i = 1:size(subjects,1)
             plot(sub_speeds{i,1}(j,1),Rotation{i,1}(j,1),'s','MarkerEdgeColor',[0,0,0],'MarkerFaceColor',colors(i,:))
         end
     end
+    for k = 1:2 % splitting walking vs running
+        if k == 1 % walking
+            index = dutyfactor{i,1} >= 0.5;
+        else % running
+            index = dutyfactor{i,1} < 0.5;
+        end
+        % Linear Regresssion (assuming intercept should be Rot = 0)
+        B_xy(:,i) = [ones(size(sub_speeds{i,1}(index,1))), sub_speeds{i,1}(index,1)]\Rotation{i,1}(index,1); % from Y = X[B0; B1], here B0 is the y-intercept and B1 is the slope
+        y_reg_xy{i,1} = B_xy(2,i)*sub_speeds{i,1}(index,1) + B_xy(1,i); % y-values for the linear regression line
+        plot(sub_speeds{i,1}(index,1),y_reg_xy{i,1},'-','Color',colors(i,:))
+    end
 end
 ylabel({'Shoulder Rotation';'xy-plane (deg)'})
 
@@ -58,6 +69,19 @@ for i = 1:size(subjects,1)
             plot(sub_speeds{i,1}(j,1),Rotation{i,1}(j,2),'s','MarkerEdgeColor',[0,0,0],'MarkerFaceColor',colors(i,:))
         end
     end
+    for k = 1:2 % splitting walking vs running
+        if k == 1 % walking
+            index = dutyfactor{i,1} >= 0.5;
+        else % running
+            index = dutyfactor{i,1} < 0.5;
+        end
+        % Linear Regresssion (assuming intercept should be Rot = 0)
+        B_SH(:,i) = [ones(size(sub_speeds{i,1}(index,1))), sub_speeds{i,1}(index,1)]\Rotation{i,1}(index,2); % from Y = X[B0; B1], here B0 is the y-intercept and B1 is the slope
+        y_reg_SH{i,1} = B_SH(2,i)*sub_speeds{i,1}(index,1) + B_SH(1,i); % y-values for the linear regression line
+        plot(sub_speeds{i,1}(index,1),y_reg_SH{i,1},'-','Color',colors(i,:))
+    end
 end
 ylabel({'Shoulder Rotation';'relative to hips (deg)'})
 xlabel('Speed (m/s)')
+
+

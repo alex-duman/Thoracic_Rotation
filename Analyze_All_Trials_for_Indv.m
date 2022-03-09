@@ -21,7 +21,17 @@ SubNum = num2str(subject);
 if subject < 10 % need to add zero before single digit subject numbers
     SubNum = ['0', SubNum];
 end
-listing = dir([dataDir, filesep,'S', SubNum, '*Meta.csv']); % get listing of files that have metabolic data (only have one for each trial)
+if strcmp(M.Movement{1,1}(1),'w')==1
+    gait = '_wlk'; % level walking
+elseif strcmp(M.Movement{1,1}(1),'i')==1
+    gait = '_inc'; % inclined walking
+elseif strcmp(M.Movement{1,1}(1),'r')==1
+    gait = '_run'; % running
+else
+    warning('Gait not recognized for ', num2str(M.Subject(1)), ' ', M.Movement{1,1},'!');
+end
+
+listing = dir([dataDir, filesep,'S', SubNum, gait, '*Meta.csv']); % get listing of files that have metabolic data (only have one for each trial)
 
 row = 1; % setup initial row of final subject output table
 for i = 1:size(listing,1) % number of total trials for all subjects

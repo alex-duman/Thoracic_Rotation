@@ -15,8 +15,12 @@ function [subject, movement, RotCond] = Extract_trialName_Info(trialName)
 subject = str2num(trialName(1,2:3));
 
 % Movement Condition
-if strcmp(trialName(1,5:7),'wlk') % if trial is labeled as walking
+if strcmp(trialName(1,5:7),'wlk') % if trial is labeled as (level) walking
     movement = {'walk'};
+elseif strcmp(trialName(1,5:7),'inc') % if trial is labeled as inclined walking
+    movement = {'incline walk'};
+elseif strcmp(trialName(1,5:7),'run') % if trial is labeled as running
+    movement = {'run'};
 else % not labeled as walking
     movement = nan;
     warning(['Trial ' trialName(1,1:end-1) ' does not have a recognized condition!']);
@@ -29,8 +33,10 @@ elseif strcmp(trialName(1,9:14),'Forced') % Forced rotation condition
     RotCond = {'Forced'};
 elseif strcmp(trialName(1,end-3:end-1),'pre') % Preferred Pre
     RotCond = {'Preferred Pre'};
-elseif strcmp(trialName(1,end-3:end-1),'pos') % Preferred Post
+elseif strcmp(trialName(1,end-3:end-1),'pos')==1 && strcmp(trialName(1,9:11),'Pre')==1 % Preferred Post
     RotCond = {'Preferred Post'};
+elseif strcmp(trialName(1,9:13),'Level') % Preferred Level
+    RotCond = {'Preferred Level'};
 else % none of the above conditions
     RotCond = nan;
     warning(['Trial ' trialName(1,1:end-1) ' does not have a recognized rotational condition!']);
