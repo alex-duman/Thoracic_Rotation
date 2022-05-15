@@ -18,7 +18,7 @@ function [strideLength, idx_max, idx_min] = Calc_Stride_Length(K, side, t_stride
 
 % Extracting heel fore-aft motion
 heel = K{:,[side(1), 'hee_y']};
-QuartStep = round(mean(abs(t_stride{:,1} - t_stride{:,2}),'omitnan')/4*100); % average # of frames for 1/4 step so can find max and min within 1/2 step area
+QuartStep = round(mean(abs(t_stride{:,1} - t_stride{:,2}),'omitnan')/4*100); % average # of frames for 1/3 step so can find max and min within 2/3 step area
 
 % Stride Lengths
 for i = 1:size(t_stride,1)

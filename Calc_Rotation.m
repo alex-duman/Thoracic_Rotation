@@ -68,8 +68,13 @@ if option == 1 % Left leg used and touchdown occur near maximal rotational value
                 idx_ShHip_max(i,1) = idx_ShHip_max(i,1) - 20; % remove 20 from scanning over additional 0.2 seconds
             else
                 half_idx = round((idx_near_max(i,1)-idx_near_max(i-1,1))/2); % half the index distance between strides
-                [theta_xy_max(i,1), idx_xy_max(i,1)] = max(theta_xy(idx_near_max(i-1,1)+half_idx:idx_near_max(i,1)+half_idx));
-                [theta_ShHip_max(i,1), idx_ShHip_max(i,1)] = max(theta_ShHip(idx_near_max(i-1,1)+half_idx:idx_near_max(i,1)+half_idx));
+                if idx_near_max(i,1)+half_idx <= size(theta_xy,1)
+                    [theta_xy_max(i,1), idx_xy_max(i,1)] = max(theta_xy(idx_near_max(i-1,1)+half_idx:idx_near_max(i,1)+half_idx));
+                    [theta_ShHip_max(i,1), idx_ShHip_max(i,1)] = max(theta_ShHip(idx_near_max(i-1,1)+half_idx:idx_near_max(i,1)+half_idx));
+                else
+                    [theta_xy_max(i,1), idx_xy_max(i,1)] = max(theta_xy(idx_near_max(i-1,1)+half_idx:end));
+                    [theta_ShHip_max(i,1), idx_ShHip_max(i,1)] = max(theta_ShHip(idx_near_max(i-1,1)+half_idx:end));
+                end
                 idx_xy_max(i,1) = idx_xy_max(i,1) - half_idx; % subtract off addtional indices added prior to idx_near_max
                 idx_ShHip_max(i,1) = idx_ShHip_max(i,1) - half_idx; % subtract off addtional indices added prior to idx_near_max
             end
@@ -115,8 +120,13 @@ else % option 2: Right leg used and touchdown occur near minimal rotational valu
                 idx_ShHip_min(i,1) = idx_ShHip_min(i,1) - 20; % remove 20 from scanning over additional 0.2 seconds
             else
                 half_idx = round((idx_near_min(i,1)-idx_near_min(i-1,1))/2); % half the index distance between strides
-                [theta_xy_min(i,1), idx_xy_min(i,1)] = min(theta_xy(idx_near_min(i-1,1)+half_idx:idx_near_min(i,1)+half_idx));
-                [theta_ShHip_min(i,1), idx_ShHip_min(i,1)] = min(theta_ShHip(idx_near_min(i-1,1)+half_idx:idx_near_min(i,1)+half_idx));
+                if idx_near_min(i,1)+half_idx >= size(theta_xy)
+                    [theta_xy_min(i,1), idx_xy_min(i,1)] = min(theta_xy(idx_near_min(i-1,1)+half_idx:end));
+                    [theta_ShHip_min(i,1), idx_ShHip_min(i,1)] = min(theta_ShHip(idx_near_min(i-1,1)+half_idx:end));
+                else
+                    [theta_xy_min(i,1), idx_xy_min(i,1)] = min(theta_xy(idx_near_min(i-1,1)+half_idx:idx_near_min(i,1)+half_idx));
+                    [theta_ShHip_min(i,1), idx_ShHip_min(i,1)] = min(theta_ShHip(idx_near_min(i-1,1)+half_idx:idx_near_min(i,1)+half_idx));
+                end
                 idx_xy_min(i,1) = idx_xy_min(i,1) - half_idx; % subtract off addtional indices added prior to idx_near_max
                 idx_ShHip_min(i,1) = idx_ShHip_min(i,1) - half_idx; % subtract off addtional indices added prior to idx_near_max
             end

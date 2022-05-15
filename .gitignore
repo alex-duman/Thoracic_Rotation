@@ -1,4 +1,6 @@
 data/
+results/
 *.asv
+Down_Sample_Force.m
 EMG_Remove_Zeros.m
 ZZZ_test_Function.m

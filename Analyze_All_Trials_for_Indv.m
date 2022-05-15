@@ -52,7 +52,11 @@ if strcmp(Indv_plt(1),'Y')==1 || strcmp(Indv_plt(1),'y')==1
     end
     ylabel('Shoulder Rotation (deg)')
     title('Rotation within Transverse (xy-) Plane')
-    legend('Preferred Pre','Forced Rotation','No Rotation','Preferred Post')
+    if strcmp(gait,'_wlk')==1
+        legend('Preferred Pre','Forced Rotation','No Rotation','Preferred Post')
+    elseif strcmp(gait,'_inc')==1
+        legend('Forced Rotation','Level Preferred','No Rotation','Preferred Post','Location','best')
+    end
 
     subplot(2,1,2)
     plot(RotAngle_curves{1,4}.time,RotAngle_curves{1,4}.theta_ShHip,line_style{4}); % since alphabetical last one should be Preferred_pre condition
@@ -125,7 +129,11 @@ if strcmp(Indv_plt(1),'Y')==1 || strcmp(Indv_plt(1),'y')==1
     end
     ylabel('MG activity')
     ylim([0,max_y(j,2)])
-    legend('Preferred Pre','Forced Rotation','No Rotation','Preferred Post','Location','best')
+    if strcmp(gait,'_wlk')==1
+        legend('Preferred Pre','Forced Rotation','No Rotation','Preferred Post')
+    elseif strcmp(gait,'_inc')==1
+        legend('Forced Rotation','Level Preferred','No Rotation','Preferred Post','Location','best')
+    end
     
         subplot(3,2,5)
     plot(EMG_curves{1,4}.percent, EMG_curves{1,4}{:,['avg_lg_sup_', Legs{1,j}(1)]},line_style{4})

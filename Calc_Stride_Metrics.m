@@ -1,4 +1,4 @@
-function [t_Lstride,t_Rstride,L_strideL,R_strideL,df] = Calc_Stride_Metrics(K,L_legL,L_legR,plt,trialName,Lheel_height,Rheel_height)
+function [t_Lstride,t_Rstride,L_strideL,R_strideL,df] = Calc_Stride_Metrics(K,L_legL,L_legR,plt,trialName,Lheel_height,Rheel_height,Ltoe_height,Rtoe_height)
 % This function determines the times for each stride cycle as well as the 
 % stride length for both the right and left legs, which is defined as when 
 % the heel marker reaches it's furthes point forward during the trial.
@@ -28,9 +28,9 @@ function [t_Lstride,t_Rstride,L_strideL,R_strideL,df] = Calc_Stride_Metrics(K,L_
 
 % Finding the foot touchdown and liftoff times
 % LEFT foot
-[idx_Lheel_touchdown, idx_Lheel_liftoff] = Find_Contact_Events(K,Lheel_height,plt,'Left',trialName);
+[idx_Lheel_touchdown, idx_Lheel_liftoff] = Find_Contact_Events(K,Lheel_height,Ltoe_height,plt,'Left',trialName);
 % RIGHT foot
-[idx_Rheel_touchdown, idx_Rheel_liftoff] = Find_Contact_Events(K,Rheel_height,plt,'Right',trialName);
+[idx_Rheel_touchdown, idx_Rheel_liftoff] = Find_Contact_Events(K,Rheel_height,Rtoe_height,plt,'Right',trialName);
 
 t_Ltouchdown = K.time(idx_Lheel_touchdown);
 t_Lliftoff = K.time(idx_Lheel_liftoff);
